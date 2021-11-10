@@ -12,9 +12,6 @@ public class Map {
     public double rate;
     public double capacidadMaximadebateriaendistancia;
  
-
-
-
     public Map(int n,double speed,double rate){
         this.graph = new double[n][n];
         this.nodes = new Node[n];
@@ -23,8 +20,6 @@ public class Map {
         this.routes = new HashMap<>();
 
     }
-
- 
 
     public void addDepot(int id,String nodoNombre,double x,double y,String tipoNodo,int tipoEstacion){
         if(!nodoNombre.equals("depot")){
@@ -40,12 +35,16 @@ public class Map {
         if(this.depot == null){
             System.out.println("ADD DEPOT");
         }else{
-            this.nodes[id] = new Node(id, nodoNombre,x,y, tipoNodo, tipoEstacion,tiempoParaCargarAl100);
+            this.nodes[id] = new Node(id, nodoNombre, x - this.depot.x, y - this.depot.y, tipoNodo, tipoEstacion,tiempoParaCargarAl100);
         }
         
     }
 
     public void fillGraph(){
+
+        this.nodes[0].x = 0;
+        this.nodes[0].y = 0;
+
         FindDistance finder = new FindDistance();
         for (int i = 0; i < graph.length; i++) {
 
@@ -119,55 +118,47 @@ public class Map {
 
         System.out.println("");
     }
+    
+    public int makeRoutes2(double range,double speed,double timpoMaximoDeRuta){
 
-    public int makeRoutes(double range,double speed,double timpoMaximoDeRuta,double tiempoDeCarga){
-
-        FindDistance distanceFinder = new FindDistance();
         int routesCounter = 0;
         int nodeCounter = 1;
-       
-
         while(nodeCounter < this.nodes.length){
-
-      
-            Stack<Node> incluidos = new Stack<>();
-            incluidos.add(this.depot);
+            Stack<Node> sta = new Stack<>();
+            sta.add(this.depot);
+            double timeLeft = timpoMaximoDeRuta;
             double rangeLeft = range;
-            double hoursUsed = timpoMaximoDeRuta;
-
-
-            while(rangeLeft>0 && hoursUsed>0 && nodeCounter < this.nodes.length){
-
+            while(timeLeft > 0 && rangeLeft > 0 && nodeCounter < this.nodes.length){
                 Node current = this.nodes[nodeCounter];
-                Node last = incluidos.peek();
-                double distance = this.graph[last.id][current.id];
-                rangeLeft = rangeLeft - distance;
-                hoursUsed = hoursUsed - (distance/speed);
-                if(current.tipoNodo.equals("s") && rangeLeft>0 && hoursUsed>0){
-                    hoursUsed = hoursUsed - tiempoDeCarga;
+                rangeLeft = rangeLeft - this.graph[sta.peek().id][current.id];
+                timeLeft = timeLeft - (this.graph[sta.peek().id][current.id]/speed);
+                if(current.tipoNodo.equals("s") && timeLeft > 0 && rangeLeft > 0){
+                    timeLeft = timeLeft - current.tiempoDeCargaAl100;
                     rangeLeft = range;
                 }
-                incluidos.add(current);
-                distance = this.graph[current.id][this.depot.id];
-                rangeLeft = rangeLeft - distance;
-                hoursUsed = hoursUsed - (distance/speed);
+                sta.add(current);
+                rangeLeft = rangeLeft - this.graph[0][current.id];
+                timeLeft = timeLeft - (this.graph[0][current.id]/speed);
                 nodeCounter++;
             }
+            if(timeLeft < 0 || rangeLeft < 0){
 
-            if(incluidos.size() == 2){
-                this.routes.put(routesCounter,new ArrayList<>(incluidos));
-                continue;
+                if(sta.size() == 2){
+                    continue;
+                }
+                sta.pop();
+                sta.add(depot);
+                this.routes.put(routesCounter,new ArrayList<>(sta));
+                nodeCounter--;
+            }else{
+                sta.add(depot);
+                this.routes.put(routesCounter,new ArrayList<>(sta));
             }
 
-            incluidos.pop();
-            nodeCounter--;
-            this.routes.put(routesCounter,new ArrayList<>(incluidos));
             routesCounter++;
-
         }
 
         return routesCounter;
-
     }
-    
+
 }
