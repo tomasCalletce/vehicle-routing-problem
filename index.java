@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class index{
 
     public static void main(String[] args) {
-        int n = 6; // numero de nodos;
+        int n = 10; // numero de nodos;
         int m = 2; //Número de clientes
         int u = 2; //Número de estaciones 
         int breaks = 4; // Número de puntos de soporte de la función de la carga de la batería
@@ -23,6 +23,10 @@ public class index{
         map.fillNode(3,"s0",82.04,37.54,"s",1,0.51);
         map.fillNode(4,"s1",18.29,102.2,"s",1,1.01);
         map.fillNode(5,"s1",18.29,102.2,"c",1,1.01);
+        map.fillNode(6,"s1",82.04,37.54,"c",1,1.01);
+        map.fillNode(7,"s1",82.04,37.54,"c",1,1.01);
+        map.fillNode(8,"s1",82.04,37.54,"c",1,1.01);
+        map.fillNode(9,"s1",82.04,37.54,"c",1,1.01);
         map.organizeNodesByAngle();
         map.fillGraph();
         map.printGraph();

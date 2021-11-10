@@ -128,6 +128,7 @@ public class Map {
             sta.add(this.depot);
             double timeLeft = timpoMaximoDeRuta;
             double rangeLeft = range;
+            double lastDistnaceToComeBack = 0;
             while(timeLeft > 0 && rangeLeft > 0 && nodeCounter < this.nodes.length){
                 Node current = this.nodes[nodeCounter];
                 rangeLeft = rangeLeft - this.graph[sta.peek().id][current.id];
@@ -139,6 +140,8 @@ public class Map {
                 sta.add(current);
                 rangeLeft = rangeLeft - this.graph[0][current.id];
                 timeLeft = timeLeft - (this.graph[0][current.id]/speed);
+                rangeLeft = rangeLeft + lastDistnaceToComeBack;
+                lastDistnaceToComeBack = this.graph[0][current.id];
                 nodeCounter++;
             }
             if(timeLeft < 0 || rangeLeft < 0){
