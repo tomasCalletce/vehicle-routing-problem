@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class index{
 
     public static void main(String[] args) {
@@ -11,6 +13,8 @@ public class index{
         double Smax = 2.04; //Tiempo máximo de carga en horas en la estación más lenta
         double st_customer = 0.5; //Tiempo en horas que se demora visitando un cliente
         double Q = 16000.0; // Capacidad de la batería en watts hora
+        double rangeOfMotor = Q/r;
+     
 
         Map map = new Map(n,speed,r);
         map.addDepot(0,"depot",45.35,5.63,"d",0);
@@ -22,9 +26,21 @@ public class index{
         map.fillGraph();
         map.printGraph();
 
+        for (int i = 0; i < n; i++) {
+            
+            System.out.println("(" + map.nodes[i].x + "," + map.nodes[i].y + ")" + map.nodes[i].id);
+        }
         
+        int routesNumber = map.makeRoutes(rangeOfMotor,speed,Tmax,Smax);
+        for (int i = 0; i <= routesNumber; i++) {
+            ArrayList<Node> lis = map.routes.get(i);
+            for (int j = 0;lis != null && j < lis.size(); j++) {
+                System.out.print(lis.get(j).id);
+            }
+            System.out.println("  ");
+        }
 
-
+        
     }
 
 }

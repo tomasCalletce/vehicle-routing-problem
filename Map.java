@@ -1,26 +1,26 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 public class Map {
 
     public double[][] graph;
     public Node[] nodes;
     public Node depot;
-    public HashMap<Integer,ArrayList<Integer>> routes;
+    public HashMap<Integer,ArrayList<Node>> routes;
     public double speed;
     public double rate;
     public double capacidadMaximadebateriaendistancia;
  
 
 
-    private int lastRouteCounter = 0;
-    
 
     public Map(int n,double speed,double rate){
         this.graph = new double[n][n];
         this.nodes = new Node[n];
         this.speed = speed;
         this.rate = rate;
+        this.routes = new HashMap<>();
 
     }
 
@@ -40,9 +40,7 @@ public class Map {
         if(this.depot == null){
             System.out.println("ADD DEPOT");
         }else{
-         
-            this.nodes[id] = new Node(id, nodoNombre,this.depot.x - x,this.depot.y - y, tipoNodo, tipoEstacion,tiempoParaCargarAl100);
-
+            this.nodes[id] = new Node(id, nodoNombre,x,y, tipoNodo, tipoEstacion,tiempoParaCargarAl100);
         }
         
     }
@@ -50,8 +48,23 @@ public class Map {
     public void fillGraph(){
         FindDistance finder = new FindDistance();
         for (int i = 0; i < graph.length; i++) {
+
+            Node ni = null;
+            for (int jj = 0; jj < graph.length; jj++) {
+                if(i == this.nodes[jj].id){
+                    ni = this.nodes[jj];
+                }
+            }
+
             for (int j = 0; j < graph.length; j++) {
-                this.graph[i][j] = finder.pythagorean(this.nodes[i].x,this.nodes[i].y,this.nodes[j].x,this.nodes[j].y);
+                Node nj = null;
+
+                for (int jj = 0; jj < graph.length; jj++) {
+                    if(j == this.nodes[jj].id){
+                        nj = this.nodes[jj];
+                    }
+                }
+                this.graph[i][j] = finder.pythagorean(ni.x,ni.y,nj.x,nj.y);
             }
         }
     } 
@@ -107,5 +120,54 @@ public class Map {
         System.out.println("");
     }
 
+    public int makeRoutes(double range,double speed,double timpoMaximoDeRuta,double tiempoDeCarga){
+
+        FindDistance distanceFinder = new FindDistance();
+        int routesCounter = 0;
+        int nodeCounter = 1;
+       
+
+        while(nodeCounter < this.nodes.length){
+
+      
+            Stack<Node> incluidos = new Stack<>();
+            incluidos.add(this.depot);
+            double rangeLeft = range;
+            double hoursUsed = timpoMaximoDeRuta;
+
+
+            while(rangeLeft>0 && hoursUsed>0 && nodeCounter < this.nodes.length){
+
+                Node current = this.nodes[nodeCounter];
+                Node last = incluidos.peek();
+                double distance = this.graph[last.id][current.id];
+                rangeLeft = rangeLeft - distance;
+                hoursUsed = hoursUsed - (distance/speed);
+                if(current.tipoNodo.equals("s") && rangeLeft>0 && hoursUsed>0){
+                    hoursUsed = hoursUsed - tiempoDeCarga;
+                    rangeLeft = range;
+                }
+                incluidos.add(current);
+                distance = this.graph[current.id][this.depot.id];
+                rangeLeft = rangeLeft - distance;
+                hoursUsed = hoursUsed - (distance/speed);
+                nodeCounter++;
+            }
+
+            if(incluidos.size() == 2){
+                this.routes.put(routesCounter,new ArrayList<>(incluidos));
+                continue;
+            }
+
+            incluidos.pop();
+            nodeCounter--;
+            this.routes.put(routesCounter,new ArrayList<>(incluidos));
+            routesCounter++;
+
+        }
+
+        return routesCounter;
+
+    }
     
 }
