@@ -11,6 +11,8 @@ public class Map {
     public double speed;
     public double rate;
     public double capacidadMaximadebateriaendistancia;
+
+    
  
     public Map(int n,double speed,double rate){
         this.graph = new double[n][n];
@@ -163,5 +165,6 @@ public class Map {
 
         return routesCounter;
     }
+
 
 }
