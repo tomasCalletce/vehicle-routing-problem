@@ -173,7 +173,7 @@ public class Map {
         return routesCounter;
     }
 
-    private void bruteForceSearch(ArrayList<Node> cities, int startCity, double currentDistance) {
+    public void tsp(ArrayList<Node> cities, int startCity, double currentDistance) {
 
         if (startCity < cities.size() - 1) {
             for (int i = startCity; i < cities.size(); i++) {// cada iteración hace todas las permutaciones empezando
@@ -182,7 +182,7 @@ public class Map {
                 cities.set(i, cities.get(startCity));
                 cities.set(startCity, tempCity);
                 currentDistance = computeDistance(cities);
-                bruteForceSearch(cities, startCity + 1, currentDistance);
+                tsp(cities, startCity + 1, currentDistance);
                 tempCity = cities.get(i);
                 cities.set(i, cities.get(startCity));
                 cities.set(startCity, tempCity);

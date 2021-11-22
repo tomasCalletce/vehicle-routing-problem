@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class ReadFiles {
 
@@ -57,6 +58,19 @@ public class ReadFiles {
                 tipoEstacion = Integer.parseInt(lineaPartida[5]);
                 map.fillNode(id, nodoNombre, x, y, tipoNodo, tipoEstacion, tcarga);
             }
+
+            // int routesNumber = map.makeRoutes2();
+            // for (int i = 0; i <= routesNumber; i++) {
+            // ArrayList<Node> lis = map.routes.get(i);
+            // map.tsp(lis, 0, 0);
+
+            // System.out.println(" ");
+            // }
+            // System.out.print("[");
+            // for (int i = 0; i < map.shortestPath.size(); i++) {
+            // System.out.print(map.shortestPath.get(i).id + ", ");
+            // }
+            // System.out.println("];");
 
         } catch (Exception ex) {
             System.out.println(ex);
