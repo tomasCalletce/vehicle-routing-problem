@@ -7,12 +7,12 @@ public class ReadFiles {
     static double r, speed, Tmax, Smax, st_customer, Q;
     static Map map;
 
-    public static Map readFile(String fileName,double tcarga){
+    public static Map readFile(String fileName, double tcarga, double range, double tMAX) {
 
         try {
             String linea;
             String lineaPartida[];
-            BufferedReader br = new BufferedReader(new FileReader("./DataFiles/"+fileName));
+            BufferedReader br = new BufferedReader(new FileReader("./DataFiles/" + fileName));
             double[] valores = new double[10];
             for (int i = 0; i < 10; i++) {
                 linea = br.readLine();
@@ -35,8 +35,7 @@ public class ReadFiles {
             br.readLine();
             br.readLine();
 
-
-            map = new Map(n,speed,r);
+            map = new Map(n, speed, r, range, tMAX);
             linea = br.readLine();
             lineaPartida = linea.split(" ");
             int id = Integer.parseInt(lineaPartida[0]);
@@ -46,22 +45,20 @@ public class ReadFiles {
             String tipoNodo = lineaPartida[4];
             int tipoEstacion = Integer.parseInt(lineaPartida[5]);
             map.addDepot(id, nodoNombre, x, y, tipoNodo, tipoEstacion);
-            
-           
+
             for (int i = 1; i < n; i++) {
                 linea = br.readLine();
                 lineaPartida = linea.split(" ");
                 id = Integer.parseInt(lineaPartida[0]);
-                 nodoNombre = lineaPartida[1];
-                 x = Double.parseDouble(lineaPartida[2]);
-                 y = Double.parseDouble(lineaPartida[3]);
-                 tipoNodo = lineaPartida[4];
+                nodoNombre = lineaPartida[1];
+                x = Double.parseDouble(lineaPartida[2]);
+                y = Double.parseDouble(lineaPartida[3]);
+                tipoNodo = lineaPartida[4];
                 tipoEstacion = Integer.parseInt(lineaPartida[5]);
                 map.fillNode(id, nodoNombre, x, y, tipoNodo, tipoEstacion, tcarga);
             }
 
-            
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
 
@@ -70,5 +67,5 @@ public class ReadFiles {
         return map;
 
     }
-    
+
 }

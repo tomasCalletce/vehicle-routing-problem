@@ -15,14 +15,18 @@ public class Map {
     public double shortestDistance = 100000;
     public double longestDistance = 0;
     public ArrayList<Node> shortestPath;
+    public double rango;
+    public double tMAX;
 
-    public Map(int n, double speed, double rate) {
+    public Map(int n, double speed, double rate, double range, double tMAX) {
         this.graph = new double[n][n];
         this.nodes = new Node[n];
         this.speed = speed;
         this.rate = rate;
         this.routes = new HashMap<>();
         this.permutations = new ArrayList<ArrayList<Node>>();
+        this.rango = range;
+        this.tMAX = tMAX;
     }
 
     public void addDepot(int id, String nodoNombre, double x, double y, String tipoNodo, int tipoEstacion) {
@@ -124,8 +128,9 @@ public class Map {
         System.out.println("");
     }
 
-    public int makeRoutes2(double range, double speed, double timpoMaximoDeRuta) {
-
+    public int makeRoutes2() {
+        double range = rango;
+        double timpoMaximoDeRuta = tMAX;
         int routesCounter = 0;
         int nodeCounter = 1;
         while (nodeCounter < this.nodes.length) {
@@ -191,7 +196,7 @@ public class Map {
         return d2;
     }
 
-    private static void bruteForceSearch(ArrayList<Node> cities, int startCity, double currentDistance) {
+    private void bruteForceSearch(ArrayList<Node> cities, int startCity, double currentDistance) {
 
         if (startCity < cities.size() - 1) {
             for (int i = startCity; i < cities.size(); i++) {// cada iteración hace todas las permutaciones empezando
@@ -216,12 +221,17 @@ public class Map {
         }
     }
 
-    private static double computeDistance(ArrayList<Node> cities) {
+    private double computeDistance(ArrayList<Node> cities) {
         double distance = 0;
+        double range = rango;
+        double timpoMaximoDeRuta = tMAX;
         for (int i = 0; i < cities.size() - 1; i++) {
             distance = distance + this.graph[cities.get(i).id][cities.get(i + 1).id];
         }
         distance = distance + this.graph[cities.get(cities.size() - 1).id][cities.get(0).id];
-        return distance;
+        range -= this.graph[cities.get(cities.size() - 1).id][cities.get(0).id];
+        timpoMaximoDeRuta -= (this.graph[cities.get(cities.size() - 1).id][cities.get(0).id] / speed);
+
+        return (range > 0 && timpoMaximoDeRuta > 0) ? distance : 100000;
     }
 }
