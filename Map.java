@@ -24,7 +24,6 @@ public class Map {
         this.speed = speed;
         this.rate = rate;
         this.routes = new HashMap<>();
-        this.permutations = new ArrayList<ArrayList<Node>>();
         this.rango = range;
         this.tMAX = tMAX;
     }
@@ -172,28 +171,6 @@ public class Map {
         }
 
         return routesCounter;
-    }
-
-    ArrayList<ArrayList<Node>> permutations;
-
-    public double TSP(ArrayList<Node> route, int index, ArrayList<Node> newRoute) {
-        if (index == route.size() - 1 || newRoute.size() == route.size() - 1) {
-            return this.graph[route.get(index - 1).id][route.get(index).id];
-        }
-        for (int i = 0; i < route.size(); i++) {
-            if (!visited[route.get(i).id]) {
-                visited[route.get(i).id] = true;
-
-            }
-        }
-
-        double d1 = TSP(route, index + 1, visited, newRoute);
-
-        double d2 = this.graph[route.get(index).id][route.get(index + 1).id] + TSP(route, index + 1, visited, newRoute);
-        if (d1 < d2) {
-            return d1;
-        }
-        return d2;
     }
 
     private void bruteForceSearch(ArrayList<Node> cities, int startCity, double currentDistance) {
