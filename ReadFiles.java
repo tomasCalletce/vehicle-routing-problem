@@ -8,7 +8,7 @@ public class ReadFiles {
     static double r, speed, Tmax, Smax, st_customer, Q;
     static Map map;
 
-    public static Map readFile(String fileName, double tcarga, double range, double tMAX) {
+    public static Map readFile(String fileName, double tcarga) {
 
         try {
             String linea;
@@ -35,8 +35,8 @@ public class ReadFiles {
             br.readLine();
             br.readLine();
             br.readLine();
+            map = new Map(n, speed, r);
 
-            map = new Map(n, speed, r, range, tMAX);
             linea = br.readLine();
             lineaPartida = linea.split(" ");
             int id = Integer.parseInt(lineaPartida[0]);
@@ -58,14 +58,20 @@ public class ReadFiles {
                 tipoEstacion = Integer.parseInt(lineaPartida[5]);
                 map.fillNode(id, nodoNombre, x, y, tipoNodo, tipoEstacion, tcarga);
             }
+            double rangeOfMotor = ReadFiles.Q / ReadFiles.r;
+            // int routesNumber = map.makeRoutes2(rangeOfMotor, ReadFiles.Tmax);
+            // // for (int i = 0; i <= routesNumber; i++) {
 
-            // int routesNumber = map.makeRoutes2();
-            // for (int i = 0; i <= routesNumber; i++) {
-            // ArrayList<Node> lis = map.routes.get(i);
-            // map.tsp(lis, 0, 0);
+            // ArrayList<Node> lis = map.routes.get(0);
+            // System.out.println(lis);
+            // for (int j = 0; lis != null && j < lis.size(); j++) {
+            // System.out.print(lis.get(j).id + " -> ");
+            // }
+            // System.out.println(lis.size());
+            // // map.tsp(lis, 0, 0, rangeOfMotor);
 
             // System.out.println(" ");
-            // }
+            // // }
             // System.out.print("[");
             // for (int i = 0; i < map.shortestPath.size(); i++) {
             // System.out.print(map.shortestPath.get(i).id + ", ");

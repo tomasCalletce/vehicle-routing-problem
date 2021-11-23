@@ -18,14 +18,13 @@ public class Map {
     public double rango;
     public double tMAX;
 
-    public Map(int n, double speed, double rate, double range, double tMAX) {
+    public Map(int n, double speed, double rate) {
         this.graph = new double[n][n];
         this.nodes = new Node[n];
         this.speed = speed;
         this.rate = rate;
         this.routes = new HashMap<>();
-        this.rango = range;
-        this.tMAX = tMAX;
+
     }
 
     public void addDepot(int id, String nodoNombre, double x, double y, String tipoNodo, int tipoEstacion) {
@@ -127,9 +126,7 @@ public class Map {
         System.out.println("");
     }
 
-    public int makeRoutes2() {
-        double range = rango;
-        double timpoMaximoDeRuta = tMAX;
+    public HashMap<Integer, ArrayList<Node>> makeRoutes2(double range, double timpoMaximoDeRuta) {
         int routesCounter = 0;
         int nodeCounter = 1;
         while (nodeCounter < this.nodes.length) {
@@ -170,24 +167,24 @@ public class Map {
             routesCounter++;
         }
 
-        return routesCounter;
+        return routes;
     }
 
-    public void tsp(ArrayList<Node> cities, int startCity, double currentDistance) {
-
+    public void tsp(ArrayList<Node> cities, int startCity, double currentDistance, double range, double tMAX) {
         if (startCity < cities.size() - 1) {
             for (int i = startCity; i < cities.size(); i++) {// cada iteración hace todas las permutaciones empezando
                                                              // desde el iesimo, por eso es el swap
                 Node tempCity = cities.get(i);
                 cities.set(i, cities.get(startCity));
                 cities.set(startCity, tempCity);
-                currentDistance = computeDistance(cities);
-                tsp(cities, startCity + 1, currentDistance);
+                currentDistance = computeDistance(cities, range, tMAX);
+                tsp(cities, startCity + 1, currentDistance, range, tMAX);
                 tempCity = cities.get(i);
                 cities.set(i, cities.get(startCity));
                 cities.set(startCity, tempCity);
             }
         } else {
+
             if (shortestDistance > currentDistance) {
                 shortestDistance = currentDistance;
                 shortestPath = new ArrayList<Node>(cities);
@@ -198,13 +195,18 @@ public class Map {
         }
     }
 
-    private double computeDistance(ArrayList<Node> cities) {
+    private double computeDistance(ArrayList<Node> cities, double range, double tMAX) {
         double distance = 0;
-        double range = rango;
         double timpoMaximoDeRuta = tMAX;
+        System.out.println("TIEMPO: " + tMAX);
+        System.out.println("RANGO: " + range);
         for (int i = 0; i < cities.size() - 1; i++) {
+            // System.out.println("SIZAS: " + this.graph[cities.get(i).id][cities.get(i +
+            // 1).id]);
+            // System.out.println("DIST: " + distance);
             distance = distance + this.graph[cities.get(i).id][cities.get(i + 1).id];
         }
+
         distance = distance + this.graph[cities.get(cities.size() - 1).id][cities.get(0).id];
         range -= this.graph[cities.get(cities.size() - 1).id][cities.get(0).id];
         timpoMaximoDeRuta -= (this.graph[cities.get(cities.size() - 1).id][cities.get(0).id] / speed);

@@ -1,15 +1,14 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class index {
 
     public static void main(String[] args) {
+        System.out.println("SIZAS");
 
+        Map map = ReadFiles.readFile("tc2c320s24cf0.txt", 1.01);
         double rangeOfMotor = ReadFiles.Q / ReadFiles.r;
-        Map map = ReadFiles.readFile("tc2c320s24cf0.txt", 1.01, rangeOfMotor, ReadFiles.Tmax);
-        System.out.println(rangeOfMotor);
         // map.printGraph();
-
-        System.out.println();
 
         // for (int i = 0; i < ReadFiles.n; i++) {
 
@@ -17,17 +16,29 @@ public class index {
         // map.nodes[i].id);
         // }
 
-        System.out.println();
+        // System.out.println();
 
-        int routesNumber = map.makeRoutes2();
-        for (int i = 0; i <= routesNumber; i++) {
-            ArrayList<Node> lis = map.routes.get(i);
+        HashMap<Integer, ArrayList<Node>> routes = map.makeRoutes2(rangeOfMotor, ReadFiles.Tmax);
+        for (int i = 0; i <= routes.size(); i++) {
+            ArrayList<Node> lis = routes.get(i);
             for (int j = 0; lis != null && j < lis.size(); j++) {
                 System.out.print(lis.get(j).id + " ");
             }
-            System.out.println("  ");
+            System.out.println(" ");
         }
+        System.out.println(map.routes.get(0).size());
+        map.tsp(routes.get(8), 1, 0, rangeOfMotor, ReadFiles.Tmax);
+
+        System.out.println(" ");
+        // }
+        System.out.print("[");
+        for (int i = 0; i < map.shortestPath.size(); i++) {
+            System.out.print(map.shortestPath.get(i).id + ", ");
+        }
+        System.out.println("];");
 
     }
 
 }
+// 0,97,99,98,100,57,60,94,0,
+// [0, 71, 95, 233, 235, 159, 0, ];0 175 13 174 0
