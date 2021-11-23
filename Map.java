@@ -192,7 +192,7 @@ public class Map {
     public void tsp(ArrayList<Node> cities, int startCity, double currentDistance, double range, double tMAX) {
         if (startCity < cities.size() - 1) {
             for (int i = startCity; i < cities.size(); i++) {// cada iteración hace todas las permutaciones empezando
-                                                             // desde el iesimo, por eso es el swap
+                                                             // desde el iesimo, por eso es el swa
                 Node tempCity = cities.get(i);
                 cities.set(i, cities.get(startCity));
                 cities.set(startCity, tempCity);
