@@ -27,15 +27,24 @@ public class index {
             System.out.println(" ");
         }
         System.out.println(map.routes.get(0).size());
-        map.tsp(routes.get(8), 1, 0, rangeOfMotor, ReadFiles.Tmax);
 
         System.out.println(" ");
         // }
-        System.out.print("[");
-        for (int i = 0; i < map.shortestPath.size(); i++) {
-            System.out.print(map.shortestPath.get(i).id + ", ");
+        ArrayList<ArrayList<Node>> szs = new ArrayList<ArrayList<Node>>();
+        for (int i = 4; i < routes.size() - 1; i++) {
+            map.tspAuxiliar(routes.get(i), 1, 0, rangeOfMotor, ReadFiles.Tmax);
         }
-        System.out.println("];");
+
+        // System.out.print("{");
+        // System.out.println(map.optimalRoutes.get(1).size() + "siza");
+        // for (int i = 4; i < map.optimalRoutes.size(); i++) {
+        // System.out.println("[ ");
+        // for (int j = 0; j < map.optimalRoutes.get(i).size(); j++) {
+        // System.out.print(map.optimalRoutes.get(i).get(j).id + "->");
+        // }
+        // System.out.println("]");
+        // }
+        // System.out.println("};");
 
     }
 

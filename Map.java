@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.Spliterator.OfPrimitive;
+import java.util.spi.CurrencyNameProvider;
 
 public class Map {
 
@@ -8,12 +10,12 @@ public class Map {
     public Node[] nodes;
     public Node depot;
     public HashMap<Integer, ArrayList<Node>> routes;
+    public ArrayList<ArrayList<Node>> optimalRoutes;
     public double speed;
     public double rate;
     public double capacidadMaximadebateriaendistancia;
 
-    public double shortestDistance = 100000;
-    public double longestDistance = 0;
+    public double shortestDistance = 1000000;
     public ArrayList<Node> shortestPath;
     public double rango;
     public double tMAX;
@@ -24,6 +26,8 @@ public class Map {
         this.speed = speed;
         this.rate = rate;
         this.routes = new HashMap<>();
+        this.shortestPath = new ArrayList<Node>();
+        this.optimalRoutes = new ArrayList<ArrayList<Node>>();
 
     }
 
@@ -170,6 +174,21 @@ public class Map {
         return routes;
     }
 
+    public void tspAuxiliar(ArrayList<Node> cities, int startCity, double currentDistance, double range, double tMAX) {
+        shortestDistance = 1000000;
+
+        if (shortestPath.size() > 0) {
+
+            shortestPath.clear();
+        }
+        tsp(cities, startCity, currentDistance, range, tMAX);
+        for (int i = 0; i < shortestPath.size(); i++) {
+            System.out.print(shortestPath.get(i).id + "->");
+        }
+        System.out.println("// distance: " + this.shortestDistance);
+        this.optimalRoutes.add(this.shortestPath);
+    }
+
     public void tsp(ArrayList<Node> cities, int startCity, double currentDistance, double range, double tMAX) {
         if (startCity < cities.size() - 1) {
             for (int i = startCity; i < cities.size(); i++) {// cada iteración hace todas las permutaciones empezando
@@ -189,17 +208,12 @@ public class Map {
                 shortestDistance = currentDistance;
                 shortestPath = new ArrayList<Node>(cities);
             }
-            if (longestDistance < currentDistance) {
-                longestDistance = currentDistance;
-            }
         }
     }
 
     private double computeDistance(ArrayList<Node> cities, double range, double tMAX) {
         double distance = 0;
         double timpoMaximoDeRuta = tMAX;
-        System.out.println("TIEMPO: " + tMAX);
-        System.out.println("RANGO: " + range);
         for (int i = 0; i < cities.size() - 1; i++) {
             // System.out.println("SIZAS: " + this.graph[cities.get(i).id][cities.get(i +
             // 1).id]);
