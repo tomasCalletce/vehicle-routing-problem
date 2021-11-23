@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>admin</title>
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+        <a class="navbar-brand" href="#">Eafit 💻 <strong>ADMIN</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+            </div>
+        </div>
+        <div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#"></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container ">
+        <div class="d-flex align-content-center justify-content-center">
+            <div class="container w-75 ">
+
+                <div class="row bg-light rounded mt-4">
+                    <div class="col-12">
+                        <h3>crear computador</h3>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">computador id</label>
+                            <input class="form-control" type="number" placeholder="" id="idComputador">
+
+                            <label for="exampleFormControlSelect1">codigo aula</label>
+                            <input class="form-control" type="number" placeholder="" id="codigoAula">
+
+                            <label for="exampleFormControlSelect1">CPU</label>
+                            <input class="form-control" type="text" placeholder="" id="tipoCPU">
+
+                            <label for="exampleFormControlSelect1">GPU</label>
+                            <input class="form-control" type="text" placeholder="" id="GPU">
+
+                            <label for="exampleFormControlSelect1">RAM GB</label>
+                            <input class="form-control" type="number" placeholder="" id="GBRAM">
+
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2" id="crearComputador">guardar</button>
+
+                    </div>
+                </div>
+
+                <div class="row  mt-4">
+                    <div class="col-12 bg-light rounded">
+                        <h3>crear aula</h3>
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">codigo aula</label>
+                            <input class="form-control" type="text" placeholder="" id="codigoCrearAula">
+
+                            <label for="exampleFormControlSelect1">cupo maximo</label>
+                            <input class="form-control" type="number" placeholder="" id="cupoMaximo">
+
+                            <label for="exampleFormControlSelect1">id asistente tecnico</label>
+                            <input class="form-control" type="text" placeholder="" id="idAsistente">
+
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2" id="crearAula">guardar</button>
+
+                    </div>
+                </div>
+
+                <div class="row bg-light rounded mt-4">
+                    <div class="col-12">
+                        <h3>crear asistente tecnico</h3>
+
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">asistente id</label>
+                            <input class="form-control" type="number" placeholder="" id="asistente">
+
+                            <label for="exampleFormControlSelect1">nombre</label>
+                            <input class="form-control" type="text" placeholder="" id="nombreAsistente">
+
+                            <label for="exampleFormControlSelect1">correo</label>
+                            <input class="form-control" type="email" placeholder="" id="correoAsistente">
+
+                            <label for="exampleFormControlSelect1">celular</label>
+                            <input class="form-control" type="text" placeholder="" id="celularAsistente">
+
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2" id="crearAsistenteTecnico">guardar</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <script src="./Admin.js" type="module"></script>
+</body>
+
+</html>
